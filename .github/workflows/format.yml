@@ -30,7 +30,7 @@ jobs:
 
     - name: Commit updates
       run: |
-        git checkout ${{ GITHUB_REF_NAME }}
+        git checkout ${{ env.GITHUB_REF_NAME }}
         git config --global user.email "git@github.com"
         git config --global user.name "GitHub Bot"
         git add .
