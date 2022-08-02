@@ -33,7 +33,7 @@ jobs:
         echo Working from branch ${{ github.head_ref }}
         git config --global user.email "git@github.com"
         git config --global user.name "GitHub Bot"
-        git pull
+        git fetch --prune origin
         git checkout ${{ github.head_ref }}
         git add .
         git commit -m "[github-action] auto format from format.yml action"
