@@ -30,7 +30,11 @@ jobs:
 
     - name: Commit updates
       run: |
-        echo running on branch ${{ env.GITHUB_HEAD_REF_SLUG_URL }}
+        echo ${{ github.base_ref }}
+        echo ${{ github.head_ref }}
+        echo ${{ github.ref }}
+        echo ${{ github.ref_name }}
+        echo ${{ github.repository }}
 
     - name: Ensure repo status is clean
       run: git status
