@@ -28,6 +28,20 @@ jobs:
         pip install black
         black . -l 100
 
+    - name: Find changed files
+      run: |
+        git diff --name-only main
+
+    - name: Find changed files certain types
+      run: |
+        git diff --name-only main | grep -E "(.py$)"
+
+    - name: Find changed files certain types handle removals
+      run: |
+        git diff --name-only --diff-filter=ACMRTUXB main | grep -E "(.py$)"
+
+
+
     # - name: Commit updates
     #   run: |
     #     echo Working from branch ${{ github.head_ref }}
