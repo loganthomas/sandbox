@@ -30,7 +30,13 @@ jobs:
 
     - name: Commit updates
       run: |
-        echo ${{ github.head_ref }}
+        echo Working from branch ${{ github.head_ref }}
+        git config --global user.email "git@github.com"
+        git config --global user.name "GitHub Bot"
+        git checkout ${{ github.head_ref }}
+        git add .
+        git commit -m "[github-action] auto format from format.yml action"
+        git push
 
     - name: Ensure repo status is clean
       run: git status
