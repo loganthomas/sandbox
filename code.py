@@ -1,15 +1,16 @@
-import numpy as np
-import pandas as pd
-
 import datetime
 from collections import namedtuple
 from pathlib import Path
-from sklearn import datasets
+
+import numpy as np
+import pandas as pd
 import tensorflow as tf
+from sklearn import datasets
 
 print("hello world")
-print('hello universe')
-z = 5+3
+print("hello universe")
+z = 5 + 3
+
 
 def dummy_func(x):
     return x + 2
