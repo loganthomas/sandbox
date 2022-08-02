@@ -36,4 +36,4 @@ jobs:
         git commit -m "Auto formatting from isort and black"
 
     - name: Ensure repo status is clean
-        run: git status
+      run: git status
