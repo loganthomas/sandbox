@@ -28,16 +28,16 @@ jobs:
         pip install black
         black . -l 100
 
-    - name: Commit updates
-      run: |
-        echo Working from branch ${{ github.head_ref }}
-        git config --global user.email "git@github.com"
-        git config --global user.name "GitHub Bot"
-        git fetch --prune origin
-        git checkout ${{ github.head_ref }}
-        git add .
-        git commit -m "[github-action] auto format from format.yml action"
-        git push
+    # - name: Commit updates
+    #   run: |
+    #     echo Working from branch ${{ github.head_ref }}
+    #     git config --global user.email "git@github.com"
+    #     git config --global user.name "GitHub Bot"
+    #     git fetch --prune origin
+    #     git checkout ${{ github.head_ref }}
+    #     git add .
+    #     git commit -m "[github-action] auto format from format.yml action"
+    #     git push
 
-    - name: Ensure repo status is clean
-      run: git status
+    # - name: Ensure repo status is clean
+    #   run: git status
