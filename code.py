@@ -11,6 +11,7 @@ print("hello world")
 print('hello universe')
 z = 5+3
 
+print('hi logan')
 def dummy_func(x):
     return x + 2
 
