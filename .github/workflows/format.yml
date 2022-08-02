@@ -39,11 +39,21 @@ jobs:
 
     - name: Find changed files certain types
       run: |
-        git diff --name-only main | grep -E "(.py$)"
+        echo Working from branch ${{ github.head_ref }}
+        git config --global user.email "git@github.com"
+        git config --global user.name "GitHub Bot"
+        git fetch --prune origin
+        git checkout ${{ github.head_ref }}
+        git diff --name-only origin/main | grep -E "(.py$)"
 
     - name: Find changed files certain types handle removals
       run: |
-        git diff --name-only --diff-filter=ACMRTUXB main | grep -E "(.py$)"
+        echo Working from branch ${{ github.head_ref }}
+        git config --global user.email "git@github.com"
+        git config --global user.name "GitHub Bot"
+        git fetch --prune origin
+        git checkout ${{ github.head_ref }}
+        git diff --name-only --diff-filter=ACMRTUXB origin/main | grep -E "(.py$)"
 
 
 
