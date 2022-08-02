@@ -30,6 +30,10 @@ jobs:
 
     - name: Find changed files
       run: |
+        echo Working from branch ${{ github.head_ref }}
+        git config --global user.email "git@github.com"
+        git config --global user.name "GitHub Bot"
+        git fetch --prune origin
         git diff --name-only main
 
     - name: Find changed files certain types
