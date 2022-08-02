@@ -1,12 +1,15 @@
-import numpy as np
 import pandas as pd
+import numpy as np
 
 print("hello world")
 
 
-def Dummy_func(x):
+def dummy_func(x):
     return x + 2
 
+def dummy2(x:int=5, y:float=10):
+    import os
+    return x+y
 
 if __name__ == "__main__":
-    Dummy_func(5)
+    dummy_func(5)
