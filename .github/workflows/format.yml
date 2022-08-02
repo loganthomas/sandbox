@@ -35,7 +35,6 @@ jobs:
         git config --global user.name "GitHub Bot"
         git fetch --prune origin
         git checkout main
-        git pull
         git checkout ${{ github.head_ref }}
         git diff --name-only main
 
