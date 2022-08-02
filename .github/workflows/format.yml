@@ -27,3 +27,13 @@ jobs:
       run: |
         pip install black
         black . -l 100
+
+    - name: Commit updates
+      run: |
+        git config --global user.email "git@github.com"
+        git config --global user.name "GitHub Bot"
+        git add .
+        git commit -m "Auto formatting from isort and black"
+
+    - name: Ensure repo status is clean
+        run: git status
