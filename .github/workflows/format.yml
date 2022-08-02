@@ -30,13 +30,7 @@ jobs:
 
     - name: Commit updates
       run: |
-        echo running on branch ${GITHUB_REF##*/}
-        git checkout ${GITHUB_REF##*/}
-        git config --global user.email "git@github.com"
-        git config --global user.name "GitHub Bot"
-        git add .
-        git commit -m "Auto formatting from isort and black"
-        git push
+        echo running on branch ${{ env.GITHUB_HEAD_REF_SLUG_URL }}"
 
     - name: Ensure repo status is clean
       run: git status
