@@ -9,11 +9,9 @@ from sklearn import datasets
 
 print("hello world")
 print("hello universe")
-z = 5 + 3
+z = 5+3
 print("hi logan")
 print("hello universe")
-
-
 def dummy_func(x):
     return x + 2
 
