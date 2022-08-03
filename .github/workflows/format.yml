@@ -42,7 +42,8 @@ jobs:
       if: ${{ env.touched_py_files != null }}
       run: |
         pip install isort
-        echo "isort_updates=$(isort --check ${{ env.touched_py_files }})" >> $GITHUB_ENV
+        isort --check ${{ env.touched_py_files }}) --profile black
+        echo "isort_updates_made=$($?)"
         isort ${{ env.touched_py_files }} --profile black
 
     - name: Run black on python (.py) touched files
