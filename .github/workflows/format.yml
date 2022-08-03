@@ -55,10 +55,10 @@ jobs:
 
     - name: Check if any GitHub action changes made
       run: |
-        echo "action_changes_made=$(git status -s)" >> $GITHUB_ENV
+        echo "action_updated_files=$(git diff --name-only | tr -s '\n', ' ')" >> $GITHUB_ENV
 
     - name: Commit and push updates to PR
-      if: ${{ env.action_changes_made != null }}
+      if: ${{ env.action_updated_files != null }}
       run: |
         echo Working from branch ${{ github.head_ref }}
         git checkout ${{ github.head_ref }}
