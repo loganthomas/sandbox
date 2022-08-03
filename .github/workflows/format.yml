@@ -3,6 +3,7 @@ name: auto-format
 on: [pull_request]
 
 jobs:
+  auto-format:
     name: Format Python Code (isort & black)
     runs-on: ubuntu-latest
 
