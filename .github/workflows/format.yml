@@ -1,15 +1,20 @@
-name: python-format
+name: auto-format
 
 on: [pull_request]
 
 jobs:
-  format:
-    name: Format Python Code
+  auto-format:
+    name: Format Python Code (isort & black)
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout repo
       uses: actions/checkout@v2
+
+    - name: Setup GitHub actions bot
+      run : |
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
 
     - name: Setup python
       uses: actions/setup-python@v2
@@ -18,26 +23,48 @@ jobs:
       run: |
         python -m pip install --upgrade pip
 
-    - name: Run isort
+    # Created env vars will not be available in the job in which
+    # they are created. The action that creates or updates the
+    # environment variable does not have access to the new value, but
+    # all subsequent actions in a job will have access. Env vars are
+    # case-sensitive and you can include punctuation.
+    - name: Store PR touched files (ignored deleted files)
+      run: |
+        echo Working from branch ${{ github.head_ref }}
+        git fetch --prune origin
+        git checkout ${{ github.head_ref }}
+        echo "pr_touched_files=$(git diff --name-only --diff-filter=ACMRTUXB origin/main | tr -s '\n' ' ')" >> $GITHUB_ENV
+        echo "pr_touched_py_files=$(git diff --name-only --diff-filter=ACMRTUXB origin/main | grep -E .py$ | tr -s '\n', ' ')" >> $GITHUB_ENV
+
+    - name: Report PR touched files
+      run: |
+        echo "All touched files: ${{ env.pr_touched_files }}"
+        echo "Python (.py) touched files: ${{ env.pr_touched_py_files }}"
+
+    - name: Run isort on python (.py) touched files
+      if: ${{ env.pr_touched_py_files != null }}
       run: |
         pip install isort
-        isort . --profile black
+        isort ${{ env.pr_touched_py_files }} --profile black
 
-    - name: Run black
+    - name: Run black on python (.py) touched files
+      if: ${{ env.pr_touched_py_files != null }}
       run: |
         pip install black
-        black . -l 100
+        black ${{ env.pr_touched_py_files }} -l 100
 
-    # - name: Commit updates
-    #   run: |
-    #     echo Working from branch ${{ github.head_ref }}
-    #     git config --global user.email "git@github.com"
-    #     git config --global user.name "GitHub Bot"
-    #     git fetch --prune origin
-    #     git checkout ${{ github.head_ref }}
-    #     git add .
-    #     git commit -m "[github-action] auto format from format.yml action"
-    #     git push
+    - name: Check if any GitHub action changes made
+      run: |
+        echo "action_touched_files=$(git diff --name-only | tr -s '\n', ' ')" >> $GITHUB_ENV
 
-    # - name: Ensure repo status is clean
-    #   run: git status
+    - name: Commit and push updates to PR
+      if: ${{ env.action_touched_files != null }}
+      run: |
+        echo Working from branch ${{ github.head_ref }}
+        git checkout ${{ github.head_ref }}
+        git add .
+        git commit -m "[github-action] auto-format: isort and black"
+        git push
+
+    - name: Ensure repo status is clean
+      run: git status
