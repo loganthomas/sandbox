@@ -23,7 +23,7 @@ jobs:
     # environment variable does not have access to the new value, but
     # all subsequent actions in a job will have access. Env vars are
     # case-sensitive and you can include punctuation.
-    - name: Store touched files (ignored deleted files)
+    - name: Store PR touched files (ignored deleted files)
       run: |
         echo Working from branch ${{ github.head_ref }}
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -33,41 +33,31 @@ jobs:
         echo "touched_files=$(git diff --name-only --diff-filter=ACMRTUXB origin/main | tr -s '\n' ' ')" >> $GITHUB_ENV
         echo "touched_py_files=$(git diff --name-only --diff-filter=ACMRTUXB origin/main | grep -E .py$ | tr -s '\n', ' ')" >> $GITHUB_ENV
 
-    - name: Report touched files
+    - name: Report PR touched files
       run: |
         echo "All touched files: ${{ env.touched_files }}"
         echo "Python (.py) touched files: ${{ env.touched_py_files }}"
 
-    - name: Run isort
+    - name: Run isort on python (.py) touched files
       run: |
         pip install isort
         isort ${{ env.touched_py_files }} --profile black
 
-    - name: Run black
+    - name: Run black on python (.py) touched files
       run: |
         pip install black
         black ${{ env.touched_py_files }} -l 100
 
-    # - name: Find changed files certain types handle removals
-    #   run: |
-    #     echo Working from branch ${{ github.head_ref }}
-    #     git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-    #     git config --global user.name "github-actions[bot]"
-    #     git fetch --prune origin
-    #     git checkout ${{ github.head_ref }}
-    #     git diff --name-only --diff-filter=ACMRTUXB origin/main | grep -E "(.py$)"
+    - name: Commit updates
+      run: |
+        echo Working from branch ${{ github.head_ref }}
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+        git fetch --prune origin
+        git checkout ${{ github.head_ref }}
+        git add .
+        git commit -m "[github-action] auto-format: isort and black"
+        git push
 
-
-    # - name: Commit updates
-    #   run: |
-    #     echo Working from branch ${{ github.head_ref }}
-    #     git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-    #     git config --global user.name "github-actions[bot]"
-    #     git fetch --prune origin
-    #     git checkout ${{ github.head_ref }}
-    #     git add .
-    #     git commit -m "[github-action] auto format from format.yml action"
-    #     git push
-
-    # - name: Ensure repo status is clean
-    #   run: git status
+    - name: Ensure repo status is clean
+      run: git status
