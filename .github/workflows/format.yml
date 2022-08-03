@@ -49,7 +49,7 @@ jobs:
         echo "isort_updates_needed=$?" >> $GITHUB_ENV
 
     - name: Run isort on python (.py) touched files
-      if: ${{ env.touched_py_files != null }} && ${{ env.isort_updates_needed == 1 }}
+      if: ${{ env.touched_py_files != null && env.isort_updates_needed == 1 }}
       run: |
         isort ${{ env.touched_py_files }} --profile black
 
