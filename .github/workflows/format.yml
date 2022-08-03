@@ -1,10 +1,9 @@
-name: python-format
+name: auto-format
 
 on: [pull_request]
 
 jobs:
-  format:
-    name: Format Python Code
+    name: Format Python Code (isort & black)
     runs-on: ubuntu-latest
 
     steps:
@@ -33,32 +32,32 @@ jobs:
         echo Working from branch ${{ github.head_ref }}
         git fetch --prune origin
         git checkout ${{ github.head_ref }}
-        echo "touched_files=$(git diff --name-only --diff-filter=ACMRTUXB origin/main | tr -s '\n' ' ')" >> $GITHUB_ENV
-        echo "touched_py_files=$(git diff --name-only --diff-filter=ACMRTUXB origin/main | grep -E .py$ | tr -s '\n', ' ')" >> $GITHUB_ENV
+        echo "pr_touched_files=$(git diff --name-only --diff-filter=ACMRTUXB origin/main | tr -s '\n' ' ')" >> $GITHUB_ENV
+        echo "pr_touched_py_files=$(git diff --name-only --diff-filter=ACMRTUXB origin/main | grep -E .py$ | tr -s '\n', ' ')" >> $GITHUB_ENV
 
     - name: Report PR touched files
       run: |
-        echo "All touched files: ${{ env.touched_files }}"
-        echo "Python (.py) touched files: ${{ env.touched_py_files }}"
+        echo "All touched files: ${{ env.pr_touched_files }}"
+        echo "Python (.py) touched files: ${{ env.pr_touched_py_files }}"
 
     - name: Run isort on python (.py) touched files
-      if: ${{ env.touched_py_files != null }}
+      if: ${{ env.pr_touched_py_files != null }}
       run: |
         pip install isort
-        isort ${{ env.touched_py_files }} --profile black
+        isort ${{ env.pr_touched_py_files }} --profile black
 
     - name: Run black on python (.py) touched files
-      if: ${{ env.touched_py_files != null }}
+      if: ${{ env.pr_touched_py_files != null }}
       run: |
         pip install black
-        black ${{ env.touched_py_files }} -l 100
+        black ${{ env.pr_touched_py_files }} -l 100
 
     - name: Check if any GitHub action changes made
       run: |
-        echo "action_updated_files=$(git diff --name-only | tr -s '\n', ' ')" >> $GITHUB_ENV
+        echo "action_touched_files=$(git diff --name-only | tr -s '\n', ' ')" >> $GITHUB_ENV
 
     - name: Commit and push updates to PR
-      if: ${{ env.action_updated_files != null }}
+      if: ${{ env.action_touched_files != null }}
       run: |
         echo Working from branch ${{ github.head_ref }}
         git checkout ${{ github.head_ref }}
