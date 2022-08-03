@@ -50,7 +50,7 @@ jobs:
       if: ${{ env.touched_py_files != null }}
       run: |
         pip install black
-        black --check -q ${{ env.touched_py_files }}) -l 100
+        black --check -q ${{ env.touched_py_files }} -l 100
         echo "black_updates_made=$?" >> $GITHUB_ENV
         black ${{ env.touched_py_files }} -l 100
 
