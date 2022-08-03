@@ -63,7 +63,7 @@ jobs:
       continue-on-error: true
 
     - name: Run black on python (.py) touched files
-      if: ${{ env.touched_py_files != null && env.black_updates_needed == 1 }}
+      if: ${{ failure() }}
       run: |
         black ${{ env.touched_py_files }} -l 100
 
