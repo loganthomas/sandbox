@@ -42,16 +42,18 @@ jobs:
       if: ${{ env.touched_py_files != null }}
       run: |
         pip install isort
+        echo "isort_updates=$(isort --check ${{ env.touched_py_files }})" >> $GITHUB_ENV
         isort ${{ env.touched_py_files }} --profile black
 
     - name: Run black on python (.py) touched files
       if: ${{ env.touched_py_files != null }}
       run: |
         pip install black
+        echo "black_updates=$(black --check ${{ env.touched_py_files }})" >> $GITHUB_ENV
         black ${{ env.touched_py_files }} -l 100
 
     - name: Commit and push updates to PR
-      if: ${{ env.touched_py_files != null }}
+      if: ${{ env.touched_py_files != null }} && (${{ env.isort_updates }} || ${{ env.black_updates }})
       run: |
         echo Working from branch ${{ github.head_ref }}
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
