@@ -55,7 +55,7 @@ jobs:
 
     - name: Check if any GitHub action changes made
       run: |
-        echo "action_changes_made=$(git status -s)"
+        echo "action_changes_made=$(git status -s)" >> $GITHUB_ENV
 
     - name: Commit and push updates to PR
       if: ${{ env.action_changes_made != null }}
