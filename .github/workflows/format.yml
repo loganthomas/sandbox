@@ -18,6 +18,11 @@ jobs:
       run: |
         python -m pip install --upgrade pip
 
+    # Creates or updates an environment variable for any actions
+    # running next in a job. The action that creates or updates the
+    # environment variable does not have access to the new value, but
+    # all subsequent actions in a job will have access. Environment
+    # variables are case-sensitive and you can include punctuation.
     - name: Find changed files certain types handle removals
       run: |
         echo Working from branch ${{ github.head_ref }}
@@ -25,10 +30,15 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git fetch --prune origin
         git checkout ${{ github.head_ref }}
-        git diff --name-only --diff-filter=ACMRTUXB origin/main
-        # echo "${{ env.touched_files }}"
-        # echo "touched_py_files=git diff --name-only --diff-filter=ACMRTUXB origin/main | grep -E .py$" >> $GITHUB_ENV
+        echo "touched_files=git diff --name-only --diff-filter=ACMRTUXB origin/main" >> $GITHUB_ENV
+        echo "touched_py_files=git diff --name-only --diff-filter=ACMRTUXB origin/main | grep -E .py$" >> $GITHUB_ENV
 
+    - name: Report touched files
+      run: |
+        echo ${{ env.touched_files }}
+        echo ${{ env.touched_py_files }}
+        echo $touched_files
+        echo $touched_py_files
     # - name: Run isort
     #   run: |
     #     pip install isort
