@@ -47,6 +47,7 @@ jobs:
         pip install isort
         isort --check -q ${{ env.touched_py_files }} --profile black
         echo "isort_updates_needed=$?" >> $GITHUB_ENV
+      continue-on-error: true
 
     - name: Run isort on python (.py) touched files
       if: ${{ env.touched_py_files != null && env.isort_updates_needed == 1 }}
@@ -59,6 +60,7 @@ jobs:
         pip install black
         black --check -q ${{ env.touched_py_files }} -l 100
         echo "black_updates_needed=$?" >> $GITHUB_ENV
+      continue-on-error: true
 
     - name: Run black on python (.py) touched files
       if: ${{ env.touched_py_files != null && env.black_updates_needed == 1 }}
