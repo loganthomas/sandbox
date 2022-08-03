@@ -36,17 +36,17 @@ jobs:
     - name: Report touched files
       run: |
         echo "All touched files: ${{ env.touched_files }}"
-        echo "Python (.py) touched files:${{ env.touched_py_files }}"
+        echo "Python (.py) touched files: ${{ env.touched_py_files }}"
 
-    # - name: Run isort
-    #   run: |
-    #     pip install isort
-    #     isort . --profile black
+    - name: Run isort
+      run: |
+        pip install isort
+        isort ${{ env.touched_py_files }} --profile black
 
-    # - name: Run black
-    #   run: |
-    #     pip install black
-    #     black . -l 100
+    - name: Run black
+      run: |
+        pip install black
+        black ${{ env.touched_py_files }} -l 100
 
     # - name: Find changed files certain types handle removals
     #   run: |
