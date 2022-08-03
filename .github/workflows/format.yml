@@ -25,7 +25,7 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git fetch --prune origin
         git checkout ${{ github.head_ref }}
-        git diff --name-only --diff-filter=ACMRTUXB origin/main"
+        git diff --name-only --diff-filter=ACMRTUXB origin/main
         # echo "${{ env.touched_files }}"
         # echo "touched_py_files=git diff --name-only --diff-filter=ACMRTUXB origin/main | grep -E .py$" >> $GITHUB_ENV
 
