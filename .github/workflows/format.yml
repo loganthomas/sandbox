@@ -30,8 +30,8 @@ jobs:
         git config --global user.name "github-actions[bot]"
         git fetch --prune origin
         git checkout ${{ github.head_ref }}
-        echo "touched_files=git diff --name-only --diff-filter=ACMRTUXB origin/main" >> $GITHUB_ENV
-        echo "touched_py_files=git diff --name-only --diff-filter=ACMRTUXB origin/main | grep -E .py$" >> $GITHUB_ENV
+        echo "touched_files=$(git diff --name-only --diff-filter=ACMRTUXB origin/main | tr -s '\n' ' ')" >> $GITHUB_ENV
+        echo "touched_py_files=$(git diff --name-only --diff-filter=ACMRTUXB origin/main | grep -E .py$ | tr -s '\n', ' ')" >> $GITHUB_ENV
 
     - name: Report touched files
       run: |
