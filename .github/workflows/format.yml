@@ -58,7 +58,7 @@ jobs:
         black ${{ env.touched_py_files }} -l 100
 
     - name: Commit and push updates to PR
-      if: ${{ env.touched_py_files != null && (${{ env.isort_updates_made }} != 0 || ${{ env.black_updates_made }} != 0) }}
+      if: ${{ env.isort_updates_made == 1 }}
       run: |
         echo Working from branch ${{ github.head_ref }}
         git checkout ${{ github.head_ref }}
