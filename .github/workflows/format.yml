@@ -26,8 +26,8 @@ jobs:
         git fetch --prune origin
         git checkout ${{ github.head_ref }}
         git diff --name-only --diff-filter=ACMRTUXB origin/main"
-    # echo "${{ env.touched_files }}"
-    # echo "touched_py_files=git diff --name-only --diff-filter=ACMRTUXB origin/main | grep -E .py$" >> $GITHUB_ENV
+        # echo "${{ env.touched_files }}"
+        # echo "touched_py_files=git diff --name-only --diff-filter=ACMRTUXB origin/main | grep -E .py$" >> $GITHUB_ENV
 
     # - name: Run isort
     #   run: |
