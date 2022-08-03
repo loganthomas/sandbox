@@ -11,6 +11,11 @@ jobs:
     - name: Checkout repo
       uses: actions/checkout@v2
 
+    - name: Setup GitHub actions bot
+      run : |
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git config --global user.name "github-actions[bot]"
+
     - name: Setup python
       uses: actions/setup-python@v2
 
@@ -26,8 +31,6 @@ jobs:
     - name: Store PR touched files (ignored deleted files)
       run: |
         echo Working from branch ${{ github.head_ref }}
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
         git fetch --prune origin
         git checkout ${{ github.head_ref }}
         echo "touched_files=$(git diff --name-only --diff-filter=ACMRTUXB origin/main | tr -s '\n' ' ')" >> $GITHUB_ENV
@@ -55,12 +58,9 @@ jobs:
         black ${{ env.touched_py_files }} -l 100
 
     - name: Commit and push updates to PR
-      if: ${{ env.touched_py_files != null }} && (${{ env.isort_updates_made }} || ${{ env.black_updates_made }})
+      if: ${{ env.touched_py_files != null }} && (${{ env.isort_updates_made != 0 }} || ${{ env.black_updates_made != 0 }})
       run: |
         echo Working from branch ${{ github.head_ref }}
-        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git config --global user.name "github-actions[bot]"
-        git fetch --prune origin
         git checkout ${{ github.head_ref }}
         git add .
         git commit -m "[github-action] auto-format: isort and black"
