@@ -42,7 +42,7 @@ jobs:
       if: ${{ env.touched_py_files != null }}
       run: |
         pip install isort
-        isort --check ${{ env.touched_py_files }}) --profile black
+        isort --check ${{ env.touched_py_files }} --profile black
         echo "isort_updates_made=$($?)"
         isort ${{ env.touched_py_files }} --profile black
 
