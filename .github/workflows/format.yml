@@ -61,13 +61,13 @@ jobs:
         echo "black_updates_needed=$?" >> $GITHUB_ENV
 
     - name: Run black on python (.py) touched files
-      if: ${{ env.touched_py_files != null }} && ${{ env.black_updates_needed }}
+      if: ${{ env.touched_py_files != null && env.black_updates_needed == 1 }}
       run: |
         black ${{ env.touched_py_files }} -l 100
 
     - name: Commit and push updates to PR
       #if: ${{ env.isort_updates_made == 1 || env.black_updates_made == 1 }}
-      if: ${{ env.touched_py_files != null }} && (${{ env.isort_updates_needed }} || ${{ env.black_updates_need }})
+      if: ${{ env.touched_py_files != null && (env.isort_updates_needed ==1 || env.black_updates_need == 1) }}
       run: |
         echo Working from branch ${{ github.head_ref }}
         git checkout ${{ github.head_ref }}
