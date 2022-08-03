@@ -58,7 +58,7 @@ jobs:
         echo "action_changes_made=$(git status -s)"
 
     - name: Commit and push updates to PR
-      if: ${{ env.action_changes_made !- null }}
+      if: ${{ env.action_changes_made != null }}
       run: |
         echo Working from branch ${{ github.head_ref }}
         git checkout ${{ github.head_ref }}
