@@ -41,35 +41,20 @@ jobs:
         echo "All touched files: ${{ env.touched_files }}"
         echo "Python (.py) touched files: ${{ env.touched_py_files }}"
 
-    - name: Check isort on python (.py) touched files
+    - name: Run isort on python (.py) touched files
       if: ${{ env.touched_py_files != null }}
       run: |
         pip install isort
-        isort --check -q ${{ env.touched_py_files }} --profile black
-        echo "isort_updates_needed=$?" >> $GITHUB_ENV
-      continue-on-error: true
-
-    - name: Run isort on python (.py) touched files
-      if: ${{ env.touched_py_files != null && env.isort_updates_needed == 1 }}
-      run: |
         isort ${{ env.touched_py_files }} --profile black
 
-    - name: Check black on python (.py) touched files
+    - name: Run black on python (.py) touched files
       if: ${{ env.touched_py_files != null }}
       run: |
         pip install black
-        black --check -q ${{ env.touched_py_files }} -l 100
-        echo "black_updates_needed=$?" >> $GITHUB_ENV
-      continue-on-error: true
-
-    - name: Run black on python (.py) touched files
-      if: ${{ failure() }}
-      run: |
         black ${{ env.touched_py_files }} -l 100
 
     - name: Commit and push updates to PR
       #if: ${{ env.isort_updates_made == 1 || env.black_updates_made == 1 }}
-      if: ${{ env.touched_py_files != null && (env.isort_updates_needed ==1 || env.black_updates_need == 1) }}
       run: |
         echo Working from branch ${{ github.head_ref }}
         git checkout ${{ github.head_ref }}
