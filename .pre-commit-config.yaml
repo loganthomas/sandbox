@@ -18,5 +18,5 @@ repos:
   - id: isort
     args: ['--profile', 'black']
 
-ci:
-    autoupdate_schedule: 'monthly'
+# ci:
+#     autoupdate_schedule: 'monthly'
