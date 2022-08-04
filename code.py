@@ -1,12 +1,12 @@
+import seaborn as sns
+from matplotlib import pyplot as plt
 import datetime
 from collections import namedtuple
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
-import seaborn as sns
 import tensorflow as tf
-from matplotlib import pyplot as plt
 from sklearn import datasets
 
 print("hello world")
@@ -25,8 +25,7 @@ def dummy2(x: int = 5, y: float = 10):
 
     return x + y
 
-
-class Point:
+class Point():
     def __init__(self, x, y):
         self.x, self.y = x, y
 
@@ -35,7 +34,6 @@ class Point:
 
     def __repr__(self):
         return f"Point(x={self.x}, y={self.y})"
-
 
 if __name__ == "__main__":
     dummy_func(5)
