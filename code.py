@@ -1,3 +1,5 @@
+import seaborn as sns
+from matplotlib import pyplot as plt
 import datetime
 from collections import namedtuple
 from pathlib import Path
@@ -23,6 +25,15 @@ def dummy2(x: int = 5, y: float = 10):
 
     return x + y
 
+class Point():
+    def __init__(self, x, y):
+        self.x, self.y = x, y
+
+    def __str__(self):
+        return f"A Point with x={self.x} and y={self.y}"
+
+    def __repr__(self):
+        return f"Point(x={self.x}, y={self.y})"
 
 if __name__ == "__main__":
     dummy_func(5)
