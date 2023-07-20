@@ -1,10 +1,6 @@
 name: dummy
 
-on:
-  push:
-    branches:
-      - dev
-  pull_request:
+on: [push]
 
 jobs:
   dummy:
