@@ -1,6 +1,6 @@
 name: dummy
 
-on: [pull_request]
+on: [push]
 
 jobs:
   dummy:
