@@ -1,6 +1,10 @@
 name: dummy
 
-on: [push]
+on:
+  push:
+    branches:
+      - dev
+  pull_request:
 
 jobs:
   dummy:
@@ -14,7 +18,7 @@ jobs:
     - name: Setup python
       uses: actions/setup-python@v4
 
-    - name: Show python version
+    - name: Show python version and executable
       run: |
         python -V
         python -c "import sys; print(sys.executable)"
