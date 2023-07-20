@@ -4,7 +4,7 @@ on: [push]
 
 jobs:
   dummy:
-    name: Show python version
+    name: Show python version and executable
     runs-on: ubuntu-latest
 
     steps:
